@@ -318,7 +318,7 @@ a:focus-visible {
 
 .hero-visual-box {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 2/3;
   background: var(--theme-surface);
   border: 1px solid var(--theme-border);
   border-radius: 12px;
@@ -329,12 +329,13 @@ a:focus-visible {
   justify-content: center;
 }
 
-.hero-visual-box::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--glass-bg), transparent);
-  backdrop-filter: blur(1px);
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 12px;
 }
 
 /* VU Meter visualization */
@@ -1100,7 +1101,7 @@ a:focus-visible {
       <h1>Создаю музыку, которая звучит именно так, как ты задумывал</h1>
       <p class="hero-desc">Привет! Я Женя Мищенков - музыкальный продюсер и аранжировщик. Беру твою идею от первой демки и довожу до финального мастеринга. Помогу тебе найти свой уникальный звук без навязывания чужого стиля. Управляемый процесс, живой грув и моя личная поддержка на всех этапах.</p>
       <div class="hero-buttons">
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-accent">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Обсудить трек в Telegram
         </a>
@@ -1112,24 +1113,7 @@ a:focus-visible {
     </div>
     <div class="hero-visual">
       <div class="hero-visual-box">
-        <div class="vu-meter" aria-hidden="true">
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-        </div>
-        <div class="waveform-bg" aria-hidden="true">
-          <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
-            <path d="M0,30 Q50,5 100,30 T200,30 T300,30 T400,30 T500,30 T600,30 T700,30 T800,30 T900,30 T1000,30 T1100,30 T1200,30" fill="none" stroke="var(--theme-accent)" stroke-width="1.5"/>
-            <path d="M0,30 Q50,55 100,30 T200,30 T300,30 T400,30 T500,30 T600,30 T700,30 T800,30 T900,30 T1000,30 T1100,30 T1200,30" fill="none" stroke="var(--theme-primary)" stroke-width="1" opacity="0.5"/>
-          </svg>
-        </div>
+        <img src="zhenya.png" alt="Женя Мищенков — музыкальный продюсер" class="hero-photo">
       </div>
     </div>
   </div>

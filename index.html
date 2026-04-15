@@ -1051,6 +1051,80 @@ a.btn-primary {
   font-size: 13px;
 }
 
+/* ---- HERO COPY CONTACT ---- */
+.hero-copy-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.hero-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  color: var(--theme-muted-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.hero-copy-btn:hover {
+  border-color: var(--theme-accent);
+  color: var(--theme-text);
+  background: var(--theme-surface);
+}
+
+.hero-copy-btn:active {
+  transform: scale(0.97);
+}
+
+.hero-copy-handle {
+  color: var(--theme-accent);
+  font-weight: 500;
+}
+
+.hero-copy-hint {
+  color: var(--theme-muted-text);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.hero-copy-toast {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--theme-accent);
+  color: var(--theme-bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.hero-copy-toast.show {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hero-copy-hint {
+    display: none;
+  }
+}
+
 /* ---- FOOTER CONTACT ---- */
 .footer-contact {
   display: flex;
@@ -1329,6 +1403,14 @@ a.btn-primary {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Скинуть демку во ВКонтакте
         </a>
+      </div>
+      <div class="hero-copy-contact">
+        <button class="hero-copy-btn" id="heroCopyBtn" aria-label="Скопировать Telegram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span class="hero-copy-handle">@johnr0ck</span>
+          <span class="hero-copy-hint">(скопируй и вставь в поиске в Телеге)</span>
+        </button>
+        <span class="hero-copy-toast" id="heroCopyToast">Скопировано!</span>
       </div>
     </div>
     <div class="hero-visual">
@@ -1754,6 +1836,19 @@ lightbox.addEventListener('touchend', (e) => {
   const dx = e.changedTouches[0].clientX - lbTouchX;
   if (Math.abs(dx) > 40) dx < 0 ? showNext() : showPrev();
   lbTouchX = null;
+});
+
+// Копирование Telegram на первом экране
+const heroCopyBtn = document.getElementById('heroCopyBtn');
+const heroCopyToast = document.getElementById('heroCopyToast');
+let heroToastTimer = null;
+
+heroCopyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText('@johnr0ck').then(() => {
+    heroCopyToast.classList.add('show');
+    clearTimeout(heroToastTimer);
+    heroToastTimer = setTimeout(() => heroCopyToast.classList.remove('show'), 2000);
+  });
 });
 
 // Копирование Telegram в футере

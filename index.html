@@ -514,68 +514,151 @@ a.btn-primary {
   font-size: 15px;
 }
 
-.gallery-slider {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding-bottom: 24px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--theme-border) transparent;
+/* ---- MASONRY GALLERY ---- */
+.gallery-masonry {
+  columns: 3;
+  column-gap: 16px;
 }
 
-.gallery-slider::-webkit-scrollbar {
-  height: 6px;
-}
-.gallery-slider::-webkit-scrollbar-track {
-  background: transparent;
-}
-.gallery-slider::-webkit-scrollbar-thumb {
-  background: var(--theme-border);
-  border-radius: 3px;
+@media (max-width: 900px) {
+  .gallery-masonry {
+    columns: 2;
+  }
 }
 
-.gallery-slide {
-  flex: 0 0 360px;
-  height: 260px;
-  background: var(--theme-surface);
-  border: 1px solid var(--theme-border);
-  border-radius: 12px;
-  scroll-snap-align: start;
-  position: relative;
+@media (max-width: 540px) {
+  .gallery-masonry {
+    columns: 1;
+  }
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  border-radius: 10px;
   overflow: hidden;
+  border: 1px solid var(--theme-border);
+  cursor: pointer;
+  position: relative;
+  display: block;
+  background: var(--theme-surface);
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.03);
+  filter: brightness(1.08);
+}
+
+.gallery-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(13,13,15,0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 14px;
+}
+
+.gallery-item:hover .gallery-item-overlay {
+  opacity: 1;
+}
+
+.gallery-item-overlay svg {
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* ---- LIGHTBOX ---- */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+  user-select: none;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  padding: 4px;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s;
+  padding: 0;
 }
 
-.gallery-slide::after {
-  content: '';
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  opacity: 1;
+  background: var(--theme-surface);
+}
+
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+
+.lightbox-counter {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, var(--theme-surface));
-  opacity: 0.5;
-}
-
-.gallery-placeholder {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.gallery-placeholder svg {
-  opacity: 0.3;
-}
-
-.gallery-placeholder span {
-  font-size: 12px;
-  color: var(--theme-muted-text);
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'JetBrains Mono', monospace;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 /* ---- ABOUT ---- */
@@ -1167,37 +1250,88 @@ a.btn-primary {
       <h2>Я создаю музыку, а не просто «сдаю проекты»</h2>
       <p>Твой творческий потенциал раскрывается там, где есть доверие и комфорт. Посмотри, как будет проходить наш с тобой процесс записи.</p>
     </div>
-    <div class="gallery-slider">
-      <div class="gallery-slide">
-        <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Фото студии</span>
+    <div class="gallery-masonry" id="galleryMasonry">
+      <div class="gallery-item" data-index="0">
+        <img src="1.png" alt="Фото из студии 1" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
         </div>
       </div>
-      <div class="gallery-slide">
-        <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Процесс записи</span>
+      <div class="gallery-item" data-index="1">
+        <img src="2.png" alt="Фото из студии 2" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
         </div>
       </div>
-      <div class="gallery-slide">
-        <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Работа с артистом</span>
+      <div class="gallery-item" data-index="2">
+        <img src="3.png" alt="Фото из студии 3" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
         </div>
       </div>
-      <div class="gallery-slide">
-        <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Сведение</span>
+      <div class="gallery-item" data-index="3">
+        <img src="4.png" alt="Фото из студии 4" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
         </div>
       </div>
-      <div class="gallery-slide">
-        <div class="gallery-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Готовый релиз</span>
+      <div class="gallery-item" data-index="4">
+        <img src="5.png" alt="Фото из студии 5" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
         </div>
       </div>
+      <div class="gallery-item" data-index="5">
+        <img src="6.png" alt="Фото из студии 6" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" data-index="6">
+        <img src="7.png" alt="Фото из студии 7" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" data-index="7">
+        <img src="8.png" alt="Фото из студии 8" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" data-index="8">
+        <img src="9.png" alt="Фото из студии 9" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" data-index="9">
+        <img src="10.png" alt="Фото из студии 10" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" data-index="10">
+        <img src="11.png" alt="Фото из студии 11" loading="lazy">
+        <div class="gallery-item-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущее фото">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <img class="lightbox-img" id="lightboxImg" src="" alt="">
+      <button class="lightbox-next" id="lightboxNext" aria-label="Следующее фото">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="lightbox-counter" id="lightboxCounter"></div>
     </div>
   </div>
 </section>
@@ -1360,6 +1494,59 @@ function randomizeVU() {
   });
 }
 setInterval(randomizeVU, 300);
+
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCounter = document.getElementById('lightboxCounter');
+const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+const total = galleryItems.length;
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  const img = galleryItems[index].querySelector('img');
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+  lightboxCounter.textContent = (index + 1) + ' / ' + total;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+
+function showPrev() {
+  currentIndex = (currentIndex - 1 + total) % total;
+  openLightbox(currentIndex);
+}
+
+function showNext() {
+  currentIndex = (currentIndex + 1) % total;
+  openLightbox(currentIndex);
+}
+
+galleryItems.forEach((item, i) => {
+  item.addEventListener('click', () => openLightbox(i));
+});
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightboxPrev').addEventListener('click', showPrev);
+document.getElementById('lightboxNext').addEventListener('click', showNext);
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') showPrev();
+  if (e.key === 'ArrowRight') showNext();
+});
 </script>
 
 <script id="tl-cta-text-guard">

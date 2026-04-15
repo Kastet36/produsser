@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Женя Мищенков — Музыкальный продюсер и аранжировщик</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --theme-bg: #0D0D0F;
+  --theme-surface: #16161A;
+  --theme-text: #F2F2F2;
+  --theme-muted-text: #8E8E93;
+  --theme-primary: #FF3B30;
+  --theme-primary-text: #FFFFFF;
+  --theme-accent: #30D158;
+  --theme-border: #2C2C2E;
+  --glass-bg: rgba(22, 22, 26, 0.6);
+  --glass-border: rgba(242, 242, 242, 0.08);
+  --glow-primary: rgba(255, 59, 48, 0.4);
+  --glow-accent: rgba(48, 209, 88, 0.3);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--theme-text);
+  background: var(--theme-bg);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--theme-text);
+  line-height: 1.1;
+}
+
+h1 { font-size: clamp(36px, 6vw, 72px); }
+h2 { font-size: clamp(28px, 4vw, 48px); }
+h3 { font-size: clamp(20px, 2.5vw, 28px); }
+
+a {
+  color: var(--theme-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---- NAV ---- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--theme-text);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo .led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--theme-primary);
+  box-shadow: 0 0 8px var(--glow-primary);
+  animation: pulse-led 2s ease-in-out infinite;
+}
+
+@keyframes pulse-led {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--glow-primary); }
+  50% { opacity: 0.5; box-shadow: 0 0 4px var(--glow-primary); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--theme-muted-text);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: var(--theme-text);
+}
+
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-burger span {
+  width: 24px;
+  height: 2px;
+  background: var(--theme-text);
+  transition: all 0.3s;
+}
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 4px;
+}
+
+.btn-primary {
+  background: var(--theme-primary);
+  color: var(--theme-primary-text);
+  box-shadow: 0 4px 24px var(--glow-primary);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 32px var(--glow-primary);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--theme-text);
+  border: 2px solid var(--theme-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--theme-text);
+  background: var(--theme-surface);
+}
+
+.btn-accent {
+  background: var(--theme-accent);
+  color: var(--theme-bg);
+  box-shadow: 0 4px 24px var(--glow-accent);
+}
+
+.btn-accent:hover {
+  box-shadow: 0 6px 32px var(--glow-accent);
+  transform: translateY(-2px);
+}
+
+/* ---- BACKGROUND DECORATIONS ---- */
+.bg-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 32px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow-primary), transparent 70%);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--glow-accent), transparent 70%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--theme-accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--theme-accent);
+}
+
+.hero h1 {
+  margin-bottom: 28px;
+}
+
+.hero h1 span {
+  color: var(--theme-primary);
+}
+
+.hero-desc {
+  color: var(--theme-muted-text);
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 540px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-visual-box {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--glass-bg), transparent);
+  backdrop-filter: blur(1px);
+}
+
+/* VU Meter visualization */
+.vu-meter {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  position: relative;
+  z-index: 2;
+}
+
+.vu-bar {
+  width: 18px;
+  border-radius: 3px 3px 0 0;
+  animation: vu-bounce 1.2s ease-in-out infinite alternate;
+}
+
+.vu-bar:nth-child(1) { height: 40%; background: var(--theme-accent); animation-delay: 0s; }
+.vu-bar:nth-child(2) { height: 65%; background: var(--theme-accent); animation-delay: 0.1s; }
+.vu-bar:nth-child(3) { height: 85%; background: var(--theme-accent); animation-delay: 0.2s; }
+.vu-bar:nth-child(4) { height: 50%; background: var(--theme-accent); animation-delay: 0.15s; }
+.vu-bar:nth-child(5) { height: 95%; background: var(--theme-primary); animation-delay: 0.25s; box-shadow: 0 0 12px var(--glow-primary); }
+.vu-bar:nth-child(6) { height: 70%; background: var(--theme-accent); animation-delay: 0.3s; }
+.vu-bar:nth-child(7) { height: 45%; background: var(--theme-accent); animation-delay: 0.05s; }
+.vu-bar:nth-child(8) { height: 80%; background: var(--theme-accent); animation-delay: 0.2s; }
+.vu-bar:nth-child(9) { height: 55%; background: var(--theme-accent); animation-delay: 0.35s; }
+.vu-bar:nth-child(10) { height: 30%; background: var(--theme-accent); animation-delay: 0.1s; }
+
+@keyframes vu-bounce {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.4); }
+}
+
+/* Waveform decoration */
+.waveform-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  opacity: 0.15;
+}
+
+.waveform-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- SERVICES SECTION ---- */
+.services {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.services-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  margin-bottom: 64px;
+}
+
+.section-header h2 {
+  margin-bottom: 16px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.service-card {
+  background: var(--theme-surface);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  border: 1px solid var(--theme-border);
+}
+
+.service-card:first-child {
+  border-radius: 12px 0 0 0;
+}
+.service-card:nth-child(2) {
+  border-radius: 0 12px 0 0;
+}
+.service-card:nth-child(3) {
+  border-radius: 0 0 0 12px;
+}
+.service-card:nth-child(4) {
+  border-radius: 0 0 12px 0;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--theme-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+}
+
+.service-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--theme-border);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.service-card h3 {
+  margin-bottom: 16px;
+  color: var(--theme-text);
+}
+
+.service-card p {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ---- PROCESS / GALLERY ---- */
+.process {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.process::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, var(--glow-primary), transparent 60%);
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.process-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.process-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 64px;
+}
+
+.process-header p {
+  color: var(--theme-muted-text);
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.gallery-slider {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-border) transparent;
+}
+
+.gallery-slider::-webkit-scrollbar {
+  height: 6px;
+}
+.gallery-slider::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gallery-slider::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 3px;
+}
+
+.gallery-slide {
+  flex: 0 0 360px;
+  height: 260px;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, var(--theme-surface));
+  opacity: 0.5;
+}
+
+.gallery-placeholder {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.gallery-placeholder svg {
+  opacity: 0.3;
+}
+
+.gallery-placeholder span {
+  font-size: 12px;
+  color: var(--theme-muted-text);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---- ABOUT ---- */
+.about {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.about-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-portrait {
+  position: sticky;
+  top: 120px;
+}
+
+.portrait-box {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portrait-box::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, var(--theme-surface), transparent);
+}
+
+.portrait-placeholder {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.portrait-placeholder svg {
+  opacity: 0.2;
+}
+
+.portrait-placeholder span {
+  font-size: 11px;
+  color: var(--theme-muted-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.portrait-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--glow-primary), transparent 70%);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.about-content h2 {
+  margin-bottom: 48px;
+}
+
+.about-block {
+  margin-bottom: 40px;
+  padding-left: 24px;
+  border-left: 2px solid var(--theme-border);
+  transition: border-color 0.3s;
+}
+
+.about-block:hover {
+  border-left-color: var(--theme-primary);
+}
+
+.about-block h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.about-block p {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ---- STATS ---- */
+.stats {
+  padding: 0 32px;
+  position: relative;
+}
+
+.stats-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 16px;
+  padding: 80px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--glow-primary), transparent 40%, var(--glow-accent));
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 2;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 7vw, 96px);
+  color: var(--theme-primary);
+  line-height: 1;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px var(--glow-primary);
+}
+
+.stat-number.accent {
+  color: var(--theme-accent);
+  text-shadow: 0 0 40px var(--glow-accent);
+}
+
+.stat-desc {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* Divider between stats */
+.stat-item + .stat-item {
+  position: relative;
+}
+.stat-item + .stat-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: var(--theme-border);
+}
+
+/* ---- PAIN POINTS ---- */
+.painpoints {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.painpoints-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.painpoints-header {
+  max-width: 700px;
+  margin-bottom: 64px;
+}
+
+.painpoints-header p {
+  color: var(--theme-muted-text);
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.painpoints-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pain-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--theme-border);
+  align-items: start;
+  transition: all 0.3s;
+}
+
+.pain-item:first-child {
+  border-top: 1px solid var(--theme-border);
+}
+
+.pain-item:hover {
+  padding-left: 16px;
+}
+
+.pain-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.pain-item:hover .pain-icon {
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 20px var(--glow-primary);
+}
+
+.pain-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.pain-content h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--theme-text);
+}
+
+.pain-content p {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ---- CTA FINAL ---- */
+.cta-final {
+  padding: 120px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-final::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, var(--glow-primary), transparent 60%);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.cta-final-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-final h2 {
+  margin-bottom: 28px;
+}
+
+.cta-final-desc {
+  color: var(--theme-muted-text);
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---- FOOTER ---- */
+.footer {
+  padding: 40px 32px;
+  border-top: 1px solid var(--theme-border);
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-text {
+  color: var(--theme-muted-text);
+  font-size: 13px;
+}
+
+/* ---- SOUND WAVE CANVAS ---- */
+.sound-wave-decoration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 1024px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .hero-visual {
+    order: -1;
+    max-width: 500px;
+  }
+
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-portrait {
+    position: static;
+    max-width: 320px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card,
+  .service-card:first-child,
+  .service-card:nth-child(2),
+  .service-card:nth-child(3),
+  .service-card:nth-child(4) {
+    border-radius: 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .stat-item + .stat-item::before {
+    display: none;
+  }
+
+  .pain-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border);
+    flex-direction: column;
+    padding: 16px 32px;
+    gap: 16px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-burger {
+    display: flex;
+  }
+
+  .hero {
+    padding: 100px 20px 60px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    padding: 14px 24px;
+    font-size: 14px;
+    justify-content: center;
+  }
+
+  .services,
+  .process,
+  .about,
+  .painpoints,
+  .cta-final {
+    padding: 80px 20px;
+  }
+
+  .stats-inner {
+    padding: 48px 24px;
+  }
+
+  .gallery-slide {
+    flex: 0 0 280px;
+    height: 200px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+/* ---- ANIMATIONS ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Studio LED dots decoration */
+.studio-leds {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.studio-leds .led-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--theme-border);
+}
+
+.studio-leds .led-dot.active {
+  background: var(--theme-accent);
+  box-shadow: 0 0 6px var(--glow-accent);
+}
+
+.studio-leds .led-dot.hot {
+  background: var(--theme-primary);
+  box-shadow: 0 0 6px var(--glow-primary);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grain" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="led"></span>
+      MISHCHENKOV
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Услуги</a></li>
+      <li><a href="#process">Процесс</a></li>
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#experience">Опыт</a></li>
+      <li><a href="#approach">Подход</a></li>
+      <li><a href="#contact">Контакт</a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">Music Producer & Arranger</div>
+      <h1>Создаю музыку, которая звучит именно так, как ты задумывал</h1>
+      <p class="hero-desc">Привет! Я Женя Мищенков - музыкальный продюсер и аранжировщик. Беру твою идею от первой демки и довожу до финального мастеринга. Помогу тебе найти свой уникальный звук без навязывания чужого стиля. Управляемый процесс, живой грув и моя личная поддержка на всех этапах.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Обсудить трек в Telegram
+        </a>
+        <a href="#" class="btn btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Скинуть демку во ВКонтакте
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-visual-box">
+        <div class="vu-meter" aria-hidden="true">
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+        </div>
+        <div class="waveform-bg" aria-hidden="true">
+          <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+            <path d="M0,30 Q50,5 100,30 T200,30 T300,30 T400,30 T500,30 T600,30 T700,30 T800,30 T900,30 T1000,30 T1100,30 T1200,30" fill="none" stroke="var(--theme-accent)" stroke-width="1.5"/>
+            <path d="M0,30 Q50,55 100,30 T200,30 T300,30 T400,30 T500,30 T600,30 T700,30 T800,30 T900,30 T1000,30 T1100,30 T1200,30" fill="none" stroke="var(--theme-primary)" stroke-width="1" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <div class="section-header fade-in">
+      <div class="studio-leds" aria-hidden="true">
+        <span class="led-dot active"></span>
+        <span class="led-dot active"></span>
+        <span class="led-dot"></span>
+        <span class="led-dot"></span>
+        <span class="led-dot hot"></span>
+      </div>
+      <h2>Чем я могу помочь твоему релизу</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-num">01</div>
+        <h3>Песня «под ключ»</h3>
+        <p>Беру на себя весь цикл продакшена. Ты приходишь с идеей трека — уходишь с готовым релизом. Я помогу с текстом и мелодией, напишу аранжировку, найду и запишу сессионных музыкантов, проконтролирую сведение и мастеринг.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">02</div>
+        <h3>Музыкальное продюсирование</h3>
+        <p>Проработаю твой стиль с нуля. Мы найдем тот самый «вайб», я подберу правильные инструменты и создам концептуальное звучание, которое выделит тебя среди других.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">03</div>
+        <h3>Аранжировка</h3>
+        <p>Упакую твою вокальную мелодию или набросок под гитару в плотный, актуальный звук. Подготовлю все мультитреки к дальнейшему сведению.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">04</div>
+        <h3>Сонграйтинг</h3>
+        <p>Помогу написать цепляющий текст и мелодию, которая засядет в голове у твоих слушателей.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS / GALLERY -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="process-header fade-in">
+      <h2>Я создаю музыку, а не просто «сдаю проекты»</h2>
+      <p>Твой творческий потенциал раскрывается там, где есть доверие и комфорт. Посмотри, как будет проходить наш с тобой процесс записи.</p>
+    </div>
+    <div class="gallery-slider">
+      <div class="gallery-slide">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Фото студии</span>
+        </div>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Процесс записи</span>
+        </div>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Работа с артистом</span>
+        </div>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Сведение</span>
+        </div>
+      </div>
+      <div class="gallery-slide">
+        <div class="gallery-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Готовый релиз</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-portrait fade-in">
+      <div class="portrait-box">
+        <div class="portrait-glow" aria-hidden="true"></div>
+        <div class="portrait-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--theme-muted-text)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Фото Жени</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <h2 class="fade-in">Кто будет рулить твоим звуком? Немного обо мне</h2>
+      <div class="about-block fade-in">
+        <h3>От гитары до студийного пульта</h3>
+        <p>В музыке я уже почти 20 лет. Свою первую песню написал в 14. Долгое время играл в живых поп-панк и рок-группах, поэтому чувствую музыку и грув не только накликивая мышку в секвенсоре, но и стоя на сцене.</p>
+      </div>
+      <div class="about-block fade-in">
+        <h3>Академическая база</h3>
+        <p>Я не просто "скачал программу и свожу биты". У меня фундаментальное понимание музыки — два профильных образования: Кировский областной колледж культуры и Санкт-Петербургский государственный институт культуры (СПбГИК). Я знаю, как работают гармония, ноты и физика звука, и применяю это на практике.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" id="experience">
+  <div class="stats-inner">
+    <div class="stats-header fade-in">
+      <h2>Мой опыт в цифрах (без лишних слов)</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <div class="stat-number">20</div>
+        <p class="stat-desc">лет в музыке — от первых живых репетиций до профессионального коммерческого продакшена.</p>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number accent">50+</div>
+        <p class="stat-desc">артистов уже доверили мне свои треки, реализовали идеи и нашли свое звучание.</p>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number">&gt;300</div>
+        <p class="stat-desc">песен, в создании, аранжировке и записи которых я принимал непосредственное участие.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="painpoints" id="approach">
+  <div class="painpoints-inner">
+    <div class="painpoints-header fade-in">
+      <h2>Я знаю, где артисты часто обжигаются</h2>
+      <p>И понимаю, почему тебе может быть страшно доверить кому-то свои песни. Поэтому мой подход отличается:</p>
+    </div>
+    <div class="painpoints-list">
+      <div class="pain-item fade-in">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--theme-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="pain-content">
+          <h3>Умная работа с ИИ, а не слепая генерация</h3>
+          <p>Многие сейчас полностью генерят треки нейросетями — в итоге получается пластик, который невозможно исправить. Я использую ИИ точечно: чтобы найти вектор, придумать свежий ход и сэкономить твое время. Но сама аранжировка пишется по трекам и полностью контролируется мной. Захочешь поменять один аккорд или ритм? Я сделаю это без проблем.</p>
+        </div>
+      </div>
+      <div class="pain-item fade-in">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--theme-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="pain-content">
+          <h3>Твой стиль важнее моего эго</h3>
+          <p>Моя главная задача — подчеркнуть твое видение и поймать то, что звучит у тебя в голове. Я не навязываю свое звучание и не ломаю твой стиль.</p>
+        </div>
+      </div>
+      <div class="pain-item fade-in">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--theme-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="pain-content">
+          <h3>Полное сопровождение</h3>
+          <p>Я не бросаю тебя после того, как скинул wav-файл. Я помогу на записи голоса, подскажу по бэк-вокалу, скорректирую работу звукорежиссера на этапе сведения. Я с тобой до самого релиза.</p>
+        </div>
+      </div>
+      <div class="pain-item fade-in">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--theme-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+        <div class="pain-content">
+          <h3>Свежий взгляд</h3>
+          <p>Все мы зацикливаемся на своем материале. Я покажу тебе, как еще можно интересно аранжировать и раскрыть твой трек, чтобы расширить его рамки.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="contact">
+  <div class="cta-final-inner">
+    <h2 class="fade-in">Готов кайфануть от процесса и реализовать свои идеи?</h2>
+    <p class="cta-final-desc fade-in">Тебе не нужно иметь идеальную партитуру или вылизанную демку. У тебя есть только аудио с диктофона? Референс трека, который тебе нравится? Или просто классная идея куплета? Присылай! Я послушаю, прикину варианты, поделюсь мыслями, и мы обсудим твое звучание. Никакого давления. Давай знакомиться и делать крутое музло!</p>
+    <div class="cta-buttons fade-in">
+      <a href="#" class="btn btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Написать мне в Telegram
+      </a>
+      <a href="#" class="btn btn-accent">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Написать мне в VK
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-text">Женя Мищенков — музыкальный продюсер и аранжировщик</span>
+    <span class="footer-text">Давай делать крутое музло</span>
+  </div>
+</footer>
+
+<script>
+// Mobile nav toggle
+const burger = document.getElementById('navBurger');
+const navLinks = document.getElementById('navLinks');
+
+burger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
+// Close nav on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+  });
+});
+
+// Intersection Observer for fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Animated VU meter bars - randomize heights
+const vuBars = document.querySelectorAll('.vu-bar');
+function randomizeVU() {
+  vuBars.forEach(bar => {
+    const h = 20 + Math.random() * 80;
+    bar.style.height = h + '%';
+  });
+}
+setInterval(randomizeVU, 300);
+</script>
+
+<script id="tl-cta-text-guard">
+  (function () {
+    function parseColor(color) {
+      if (!color || color === 'transparent' || color === 'rgba(0, 0, 0, 0)') return null;
+      const m = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      if (!m) return null;
+      return { r: +m[1], g: +m[2], b: +m[3] };
+    }
+
+    function toLinear(v) {
+      const x = v / 255;
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    }
+
+    function luminance(rgb) {
+      return 0.2126 * toLinear(rgb.r) + 0.7152 * toLinear(rgb.g) + 0.0722 * toLinear(rgb.b);
+    }
+
+    function contrast(c1, c2) {
+      const a = parseColor(c1), b = parseColor(c2);
+      if (!a || !b) return 0;
+      const l1 = luminance(a), l2 = luminance(b);
+      const hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+      return (hi + 0.05) / (lo + 0.05);
+    }
+
+    function bestText(bg) {
+      const white = 'rgb(255, 255, 255)';
+      const dark = 'rgb(17, 24, 39)';
+      return contrast(bg, white) >= contrast(bg, dark) ? white : dark;
+    }
+
+    function enforce() {
+      const selectors = [
+        'button',
+        'a[role="button"]',
+        'input[type="button"]',
+        'input[type="submit"]',
+        '.btn',
+        '.cta',
+        '[class*="btn"]',
+        '[class*="cta"]'
+      ].join(',');
+
+      const bodyBg = getComputedStyle(document.body).backgroundColor;
+
+      document.querySelectorAll(selectors).forEach((el) => {
+        const cs = getComputedStyle(el);
+        const bg = cs.backgroundColor;
+        const text = cs.color;
+
+        // Для прозрачных кнопок пропускаем (outline/ghost могут быть валидными)
+        if (!bg || bg === 'transparent' || bg === 'rgba(0, 0, 0, 0)') return;
+
+        const currentContrast = contrast(bg, text);
+        if (currentContrast < 4.5) {
+          const fixed = bestText(bg);
+          el.style.setProperty('color', fixed, 'important');
+          el.style.setProperty('-webkit-text-fill-color', fixed, 'important');
+        }
+
+        // Если кнопка сливается с фоном страницы — добавляем контрастную рамку
+        if (contrast(bg, bodyBg) < 1.8) {
+          const borderColor = bestText(bg);
+          el.style.setProperty('border', '1px solid ' + borderColor, 'important');
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', enforce);
+    } else {
+      enforce();
+    }
+    setTimeout(enforce, 120);
+    setTimeout(enforce, 600);
+  })();
+</script>
+</body>
+</html>

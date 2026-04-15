@@ -1051,6 +1051,79 @@ a.btn-primary {
   font-size: 13px;
 }
 
+/* ---- FOOTER CONTACT ---- */
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.footer-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  color: var(--theme-muted-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.footer-copy-btn:hover {
+  border-color: var(--theme-accent);
+  color: var(--theme-text);
+  background: var(--theme-surface);
+}
+
+.footer-copy-btn:active {
+  transform: scale(0.97);
+}
+
+.footer-copy-handle {
+  color: var(--theme-accent);
+  font-weight: 500;
+}
+
+.footer-copy-hint {
+  color: var(--theme-muted-text);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.footer-copy-toast {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--theme-accent);
+  color: var(--theme-bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.footer-copy-toast.show {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .footer-copy-hint {
+    display: none;
+  }
+}
+
 /* ---- SOUND WAVE CANVAS ---- */
 .sound-wave-decoration {
   position: absolute;
@@ -1248,11 +1321,11 @@ a.btn-primary {
       <h1>Создаю музыку, которая звучит именно так, как ты задумывал</h1>
       <p class="hero-desc">Привет! Я Женя Мищенков - музыкальный продюсер и аранжировщик. Беру твою идею от первой демки и довожу до финального мастеринга. Помогу тебе найти свой уникальный звук без навязывания чужого стиля. Управляемый процесс, живой грув и моя личная поддержка на всех этапах.</p>
       <div class="hero-buttons">
-        <a href="#" class="btn btn-accent">
+        <a href="https://t.me/johnr0ck" class="btn btn-accent" target="_blank" rel="noopener noreferrer">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Обсудить трек в Telegram
         </a>
-        <a href="#" class="btn btn-secondary">
+        <a href="https://vk.com/toyjohn" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Скинуть демку во ВКонтакте
         </a>
@@ -1499,11 +1572,11 @@ a.btn-primary {
     <h2 class="fade-in">Готов кайфануть от процесса и реализовать свои идеи?</h2>
     <p class="cta-final-desc fade-in">Тебе не нужно иметь идеальную партитуру или вылизанную демку. У тебя есть только аудио с диктофона? Референс трека, который тебе нравится? Или просто классная идея куплета? Присылай! Я послушаю, прикину варианты, поделюсь мыслями, и мы обсудим твое звучание. Никакого давления. Давай знакомиться и делать крутое музло!</p>
     <div class="cta-buttons fade-in">
-      <a href="#" class="btn btn-primary" style="color: #ffffff;">
+      <a href="https://t.me/johnr0ck" class="btn btn-primary" style="color: #ffffff;" target="_blank" rel="noopener noreferrer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Написать мне в Telegram
       </a>
-      <a href="#" class="btn btn-accent">
+      <a href="https://vk.com/toyjohn" class="btn btn-accent" target="_blank" rel="noopener noreferrer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Написать мне в VK
       </a>
@@ -1515,6 +1588,14 @@ a.btn-primary {
 <footer class="footer">
   <div class="footer-inner">
     <span class="footer-text">Женя Мищенков — музыкальный продюсер и аранжировщик</span>
+    <span class="footer-contact">
+      <button class="footer-copy-btn" id="footerCopyBtn" aria-label="Скопировать Telegram">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="footer-copy-handle">@johnr0ck</span>
+        <span class="footer-copy-hint">(скопируй и вставь в поиске в Телеге)</span>
+      </button>
+      <span class="footer-copy-toast" id="footerCopyToast">Скопировано!</span>
+    </span>
     <span class="footer-text">Давай делать крутое музло</span>
   </div>
 </footer>
@@ -1673,6 +1754,19 @@ lightbox.addEventListener('touchend', (e) => {
   const dx = e.changedTouches[0].clientX - lbTouchX;
   if (Math.abs(dx) > 40) dx < 0 ? showNext() : showPrev();
   lbTouchX = null;
+});
+
+// Копирование Telegram в футере
+const footerCopyBtn = document.getElementById('footerCopyBtn');
+const footerCopyToast = document.getElementById('footerCopyToast');
+let toastTimer = null;
+
+footerCopyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText('@johnr0ck').then(() => {
+    footerCopyToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => footerCopyToast.classList.remove('show'), 2000);
+  });
 });
 </script>
 

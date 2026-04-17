@@ -519,5 +519,84 @@
     setTimeout(enforce, 600);
   })();
 </script>
+
+<script id="tl-cta-text-guard">
+  (function () {
+    function parseColor(color) {
+      if (!color || color === 'transparent' || color === 'rgba(0, 0, 0, 0)') return null;
+      const m = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      if (!m) return null;
+      return { r: +m[1], g: +m[2], b: +m[3] };
+    }
+
+    function toLinear(v) {
+      const x = v / 255;
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    }
+
+    function luminance(rgb) {
+      return 0.2126 * toLinear(rgb.r) + 0.7152 * toLinear(rgb.g) + 0.0722 * toLinear(rgb.b);
+    }
+
+    function contrast(c1, c2) {
+      const a = parseColor(c1), b = parseColor(c2);
+      if (!a || !b) return 0;
+      const l1 = luminance(a), l2 = luminance(b);
+      const hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+      return (hi + 0.05) / (lo + 0.05);
+    }
+
+    function bestText(bg) {
+      const white = 'rgb(255, 255, 255)';
+      const dark = 'rgb(17, 24, 39)';
+      return contrast(bg, white) >= contrast(bg, dark) ? white : dark;
+    }
+
+    function enforce() {
+      const selectors = [
+        'button',
+        'a[role="button"]',
+        'input[type="button"]',
+        'input[type="submit"]',
+        '.btn',
+        '.cta',
+        '[class*="btn"]',
+        '[class*="cta"]'
+      ].join(',');
+
+      const bodyBg = getComputedStyle(document.body).backgroundColor;
+
+      document.querySelectorAll(selectors).forEach((el) => {
+        const cs = getComputedStyle(el);
+        const bg = cs.backgroundColor;
+        const text = cs.color;
+
+        // Для прозрачных кнопок пропускаем (outline/ghost могут быть валидными)
+        if (!bg || bg === 'transparent' || bg === 'rgba(0, 0, 0, 0)') return;
+
+        const currentContrast = contrast(bg, text);
+        if (currentContrast < 4.5) {
+          const fixed = bestText(bg);
+          el.style.setProperty('color', fixed, 'important');
+          el.style.setProperty('-webkit-text-fill-color', fixed, 'important');
+        }
+
+        // Если кнопка сливается с фоном страницы — добавляем контрастную рамку
+        if (contrast(bg, bodyBg) < 1.8) {
+          const borderColor = bestText(bg);
+          el.style.setProperty('border', '1px solid ' + borderColor, 'important');
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', enforce);
+    } else {
+      enforce();
+    }
+    setTimeout(enforce, 120);
+    setTimeout(enforce, 600);
+  })();
+</script>
 </body>
 </html>

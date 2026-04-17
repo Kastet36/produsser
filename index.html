@@ -1310,6 +1310,231 @@ a.btn-primary {
   }
 }
 
+/* ---- REVIEWS ---- */
+.reviews {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.reviews-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.reviews-header {
+  margin-bottom: 56px;
+}
+
+.reviews-header h2 {
+  margin-bottom: 12px;
+}
+
+.reviews-header p {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Карусель-обёртка */
+.reviews-carousel-wrap {
+  position: relative;
+}
+
+/* Трек — три карточки на десктопе */
+.reviews-track-outer {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.reviews-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  align-items: stretch;
+}
+
+.review-card {
+  flex: 0 0 calc((100% - 40px) / 3);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.review-card:hover {
+  border-color: var(--glass-border);
+  transform: translateY(-3px);
+}
+
+.review-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: filter 0.3s, transform 0.4s;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.review-card:hover img {
+  filter: brightness(1.06);
+  transform: scale(1.02);
+}
+
+/* Иконка увеличения при ховере */
+.review-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(13,13,15,0.65) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 14px;
+  pointer-events: none;
+}
+
+.review-card:hover .review-card-overlay {
+  opacity: 1;
+}
+
+.review-card-overlay svg {
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* Стрелки карусели */
+.reviews-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s, transform 0.2s;
+  padding: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.reviews-arrow:hover {
+  opacity: 1;
+  background: var(--theme-surface);
+}
+
+.reviews-arrow:active {
+  transform: translateY(-50%) scale(0.93);
+}
+
+.reviews-arrow:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.reviews-arrow-prev { left: -24px; }
+.reviews-arrow-next { right: -24px; }
+
+/* Точки-индикаторы */
+.reviews-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.reviews-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--theme-border);
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  border: none;
+  padding: 0;
+}
+
+.reviews-dot.active {
+  background: var(--theme-primary);
+  box-shadow: 0 0 8px var(--glow-primary);
+  transform: scale(1.4);
+}
+
+/* Мобильный: один скрин + горизонтальный свайп */
+@media (max-width: 768px) {
+  .reviews {
+    padding: 80px 0;
+  }
+
+  .reviews-inner {
+    overflow: visible;
+  }
+
+  .reviews-header {
+    padding: 0 20px;
+    margin-bottom: 32px;
+  }
+
+  .reviews-arrow {
+    display: none;
+  }
+
+  .reviews-track-outer {
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .reviews-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 4px 20px 4px;
+    scrollbar-width: none;
+    transition: none;
+    transform: none !important;
+  }
+
+  .reviews-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .review-card {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+    transform: none !important;
+  }
+
+  .review-card:hover {
+    transform: none !important;
+  }
+
+  .reviews-dots {
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .review-card {
+    flex: 0 0 calc((100% - 20px) / 2);
+  }
+}
+
 /* Studio LED dots decoration */
 .studio-leds {
   display: flex;
@@ -1351,6 +1576,7 @@ a.btn-primary {
       <li><a href="#process">Процесс</a></li>
       <li><a href="#about">Обо мне</a></li>
       <li><a href="#experience">Опыт</a></li>
+      <li><a href="#reviews">Отзывы</a></li>
       <li><a href="#approach">Подход</a></li>
       <li><a href="#contact">Контакт</a></li>
     </ul>
@@ -1570,6 +1796,113 @@ a.btn-primary {
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-header fade-in">
+      <h2>Что говорят артисты, с которыми я работал</h2>
+      <p>Скриншоты из мессенджеров и Авито. Как есть, ничего не редактировал.</p>
+    </div>
+    <div class="reviews-carousel-wrap">
+      <button class="reviews-arrow reviews-arrow-prev" id="reviewsPrev" aria-label="Предыдущий отзыв">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="reviews-track-outer">
+        <div class="reviews-track" id="reviewsTrack">
+          <div class="review-card" data-rev-index="0">
+            <img src="otzyv_1.jpg" alt="Отзыв 1" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="1">
+            <img src="otzyv_2.jpg" alt="Отзыв 2" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="2">
+            <img src="otzyv_3.jpg" alt="Отзыв 3" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="3">
+            <img src="otzyv_4.jpg" alt="Отзыв 4" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="4">
+            <img src="otzyv_5.jpg" alt="Отзыв 5" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="5">
+            <img src="otzyv_6.jpg" alt="Отзыв 6" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="6">
+            <img src="otzyv_7.jpg" alt="Отзыв 7" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="7">
+            <img src="otzyv_8.jpg" alt="Отзыв 8" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="8">
+            <img src="otzyv_9.jpg" alt="Отзыв 9" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="9">
+            <img src="otzyv_10.jpg" alt="Отзыв 10" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="10">
+            <img src="otzyv_11.jpg" alt="Отзыв 11" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="11">
+            <img src="otzyv_12.jpg" alt="Отзыв 12" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="12">
+            <img src="otzyv_13.jpg" alt="Отзыв 13" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+          <div class="review-card" data-rev-index="13">
+            <img src="otzyv_14.jpg" alt="Отзыв 14" loading="lazy">
+            <div class="review-card-overlay">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="reviews-arrow reviews-arrow-next" id="reviewsNext" aria-label="Следующий отзыв">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="reviews-dots" id="reviewsDots"></div>
+  </div>
+</section>
+
 <!-- PAIN POINTS -->
 <section class="painpoints" id="approach">
   <div class="painpoints-inner">
@@ -1756,6 +2089,177 @@ lightbox.addEventListener('touchend', (e) => {
   if (Math.abs(dx) > 40) dx < 0 ? showNext() : showPrev();
   lbTouchX = null;
 });
+
+// ---- REVIEWS CAROUSEL ----
+(function () {
+  const track = document.getElementById('reviewsTrack');
+  const dotsContainer = document.getElementById('reviewsDots');
+  const btnPrev = document.getElementById('reviewsPrev');
+  const btnNext = document.getElementById('reviewsNext');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.review-card'));
+  const total = cards.length;
+
+  // На мобильном карусель работает нативным scroll-snap — JS только синхронизирует точки
+  const isMobile = () => window.innerWidth <= 768;
+
+  // Сколько карточек видно одновременно
+  function visibleCount() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  let currentStep = 0; // шаг = сдвиг на 1 карточку
+
+  function maxStep() {
+    return Math.max(0, total - visibleCount());
+  }
+
+  // --- Генерация точек ---
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    const steps = maxStep() + 1;
+    for (let i = 0; i < steps; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'reviews-dot' + (i === 0 ? ' active' : '');
+      btn.setAttribute('aria-label', 'Отзыв ' + (i + 1));
+      btn.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(btn);
+    }
+  }
+
+  function updateDots() {
+    const dots = dotsContainer.querySelectorAll('.reviews-dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentStep));
+  }
+
+  function updateArrows() {
+    if (isMobile()) return;
+    btnPrev.disabled = currentStep === 0;
+    btnNext.disabled = currentStep >= maxStep();
+  }
+
+  function goTo(step) {
+    if (isMobile()) return;
+    currentStep = Math.max(0, Math.min(step, maxStep()));
+    const cardWidth = cards[0].offsetWidth + 20; // 20 = gap
+    track.style.transform = 'translateX(-' + (cardWidth * currentStep) + 'px)';
+    updateDots();
+    updateArrows();
+  }
+
+  btnPrev.addEventListener('click', () => goTo(currentStep - 1));
+  btnNext.addEventListener('click', () => goTo(currentStep + 1));
+
+  // Синхронизация точек при нативном скролле на мобильном
+  if (track) {
+    track.addEventListener('scroll', () => {
+      if (!isMobile()) return;
+      const scrollLeft = track.scrollLeft;
+      const cardWidth = cards[0] ? cards[0].offsetWidth + 12 : 1;
+      const idx = Math.round(scrollLeft / cardWidth);
+      if (idx !== currentStep) {
+        currentStep = idx;
+        updateDots();
+      }
+    }, { passive: true });
+  }
+
+  // Пересчёт при ресайзе
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      currentStep = 0;
+      if (!isMobile()) track.style.transform = 'translateX(0)';
+      buildDots();
+      updateArrows();
+    }, 150);
+  });
+
+  // Инициализация
+  buildDots();
+  updateArrows();
+
+  // --- Лайтбокс для отзывов ---
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightboxImg');
+  const lbCounter = document.getElementById('lightboxCounter');
+
+  // Переопределяем переменные галереи для мультирежима
+  // Используем уже существующий лайтбокс, но с отдельным массивом
+  let revImages = cards.map(c => ({ src: c.querySelector('img').src, alt: c.querySelector('img').alt }));
+  let revLbIndex = 0;
+  let lbMode = 'gallery'; // 'gallery' | 'reviews'
+
+  // Глобальный массив для лайтбокса
+  window._revImages = revImages;
+
+  function openRevLightbox(idx) {
+    lbMode = 'reviews';
+    revLbIndex = idx;
+    lbImg.src = revImages[idx].src;
+    lbImg.alt = revImages[idx].alt;
+    lbCounter.textContent = (idx + 1) + ' / ' + revImages.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function revLbPrev() {
+    revLbIndex = (revLbIndex - 1 + revImages.length) % revImages.length;
+    lbImg.src = revImages[revLbIndex].src;
+    lbImg.alt = revImages[revLbIndex].alt;
+    lbCounter.textContent = (revLbIndex + 1) + ' / ' + revImages.length;
+  }
+
+  function revLbNext() {
+    revLbIndex = (revLbIndex + 1) % revImages.length;
+    lbImg.src = revImages[revLbIndex].src;
+    lbImg.alt = revImages[revLbIndex].alt;
+    lbCounter.textContent = (revLbIndex + 1) + ' / ' + revImages.length;
+  }
+
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => openRevLightbox(i));
+  });
+
+  // Переопределяем обработчики стрелок лайтбокса для поддержки двух режимов
+  const origPrev = document.getElementById('lightboxPrev');
+  const origNext = document.getElementById('lightboxNext');
+
+  // Заменяем listener'ы клонированием (убираем старые)
+  const newPrev = origPrev.cloneNode(true);
+  const newNext = origNext.cloneNode(true);
+  origPrev.parentNode.replaceChild(newPrev, origPrev);
+  origNext.parentNode.replaceChild(newNext, origNext);
+
+  newPrev.addEventListener('click', () => {
+    if (lbMode === 'reviews') revLbPrev();
+    else showPrev();
+  });
+  newNext.addEventListener('click', () => {
+    if (lbMode === 'reviews') revLbNext();
+    else showNext();
+  });
+
+  // Клавиши тоже работают через режим
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (lbMode !== 'reviews') return;
+    if (e.key === 'ArrowLeft') revLbPrev();
+    if (e.key === 'ArrowRight') revLbNext();
+  });
+
+  // Сброс режима при закрытии
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    lbMode = 'gallery';
+  });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) lbMode = 'gallery';
+  });
+})();
 
 // Копирование Telegram на первом экране
 const heroCopyBtn = document.getElementById('heroCopyBtn');

@@ -1204,6 +1204,7 @@ a.btn-primary {
   .about-portrait {
     position: static;
     max-width: 320px;
+    order: -1;
   }
 
   .services-grid {
@@ -1285,7 +1286,15 @@ a.btn-primary {
     padding: 48px 24px;
   }
 
+  .about-inner {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .about-portrait {
+    order: -1;
+    max-width: 100%;
+  }
 
   .cta-buttons {
     flex-direction: column;

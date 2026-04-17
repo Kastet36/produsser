@@ -768,6 +768,11 @@ a.btn-primary {
   pointer-events: none;
 }
 
+.about-title {
+  display: none;
+  margin-bottom: 48px;
+}
+
 .about-content h2 {
   margin-bottom: 48px;
 }
@@ -1292,10 +1297,23 @@ a.btn-primary {
     gap: 32px;
   }
 
+  .about-title {
+    display: block;
+    order: 1;
+  }
+
   .about-portrait {
-    order: -1;
+    order: 2;
     max-width: 100%;
     position: static !important;
+  }
+
+  .about-content {
+    order: 3;
+  }
+
+  .about-content h2 {
+    display: none;
   }
 
   .portrait-box {
@@ -1771,13 +1789,13 @@ a.btn-primary {
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-inner">
+    <h2 class="about-title fade-in">Кто будет рулить твоим звуком? Немного обо мне</h2>
     <div class="about-portrait fade-in">
       <div class="portrait-box">
         <img src="zhenya_1.jpg" alt="Женя Мищенков" class="portrait-photo">
       </div>
     </div>
     <div class="about-content">
-      <h2 class="fade-in">Кто будет рулить твоим звуком? Немного обо мне</h2>
       <div class="about-block fade-in">
         <h3>От гитары до студийного пульта</h3>
         <p>В музыке я уже почти 20 лет. Свою первую песню написал в 14. Долгое время играл в живых поп-панк и рок-группах, поэтому чувствую музыку и грув не только накликивая мышку в секвенсоре, но и стоя на сцене.</p>

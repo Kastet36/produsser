@@ -2024,68 +2024,97 @@ function randomizeVU() {
 }
 setInterval(randomizeVU, 300);
 
-// Gallery
+// ============================================================
+// ЕДИНЫЙ ЛАЙТБОКС — поддерживает галерею студии и отзывы
+// ============================================================
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxCounter = document.getElementById('lightboxCounter');
-const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
-const total = galleryItems.length;
-let currentIndex = 0;
 
-// --- Лайтбокс ---
-function openLightbox(index) {
-  currentIndex = index;
-  const img = galleryItems[index].querySelector('img');
-  lightboxImg.src = img.src;
-  lightboxImg.alt = img.alt;
-  lightboxCounter.textContent = (index + 1) + ' / ' + total;
+// Режим: 'gallery' | 'reviews'
+let lbMode = 'gallery';
+let lbIndex = 0;
+
+// Источники изображений для каждого режима
+const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+const reviewCards  = Array.from(document.querySelectorAll('.review-card'));
+
+function lbSources() {
+  return lbMode === 'reviews'
+    ? reviewCards.map(c => ({ src: c.querySelector('img').src, alt: c.querySelector('img').alt }))
+    : galleryItems.map(c => ({ src: c.querySelector('img').src, alt: c.querySelector('img').alt }));
+}
+
+function lbOpen(mode, index) {
+  lbMode = mode;
+  lbIndex = index;
+  const sources = lbSources();
+  lightboxImg.src = sources[lbIndex].src;
+  lightboxImg.alt = sources[lbIndex].alt;
+  lightboxCounter.textContent = (lbIndex + 1) + ' / ' + sources.length;
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function closeLightbox() {
+function lbClose() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
   lightboxImg.src = '';
 }
 
-function showPrev() {
-  currentIndex = (currentIndex - 1 + total) % total;
-  openLightbox(currentIndex);
+function lbPrev() {
+  const sources = lbSources();
+  lbIndex = (lbIndex - 1 + sources.length) % sources.length;
+  lightboxImg.src = sources[lbIndex].src;
+  lightboxImg.alt = sources[lbIndex].alt;
+  lightboxCounter.textContent = (lbIndex + 1) + ' / ' + sources.length;
 }
 
-function showNext() {
-  currentIndex = (currentIndex + 1) % total;
-  openLightbox(currentIndex);
+function lbNext() {
+  const sources = lbSources();
+  lbIndex = (lbIndex + 1) % sources.length;
+  lightboxImg.src = sources[lbIndex].src;
+  lightboxImg.alt = sources[lbIndex].alt;
+  lightboxCounter.textContent = (lbIndex + 1) + ' / ' + sources.length;
 }
 
-// Открытие лайтбокса по клику
+// Клики на карточки галереи студии
 galleryItems.forEach((item, i) => {
-  item.addEventListener('click', () => openLightbox(i));
+  item.addEventListener('click', () => lbOpen('gallery', i));
 });
 
-document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-document.getElementById('lightboxPrev').addEventListener('click', showPrev);
-document.getElementById('lightboxNext').addEventListener('click', showNext);
+// Клики на карточки отзывов
+reviewCards.forEach((card, i) => {
+  card.addEventListener('click', () => lbOpen('reviews', i));
+});
 
+// Кнопки лайтбокса
+document.getElementById('lightboxClose').addEventListener('click', lbClose);
+document.getElementById('lightboxPrev').addEventListener('click', lbPrev);
+document.getElementById('lightboxNext').addEventListener('click', lbNext);
+
+// Клик на фон закрывает
 lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) closeLightbox();
+  if (e.target === lightbox) lbClose();
 });
 
+// Клавиатура
 document.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('open')) return;
-  if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') showPrev();
-  if (e.key === 'ArrowRight') showNext();
+  if (e.key === 'Escape')      lbClose();
+  if (e.key === 'ArrowLeft')   lbPrev();
+  if (e.key === 'ArrowRight')  lbNext();
 });
 
-// Свайп в лайтбоксе (десктоп touch / планшет)
+// Свайп пальцем внутри лайтбокса
 let lbTouchX = null;
-lightbox.addEventListener('touchstart', (e) => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchstart', (e) => {
+  lbTouchX = e.touches[0].clientX;
+}, { passive: true });
 lightbox.addEventListener('touchend', (e) => {
   if (lbTouchX === null) return;
   const dx = e.changedTouches[0].clientX - lbTouchX;
-  if (Math.abs(dx) > 40) dx < 0 ? showNext() : showPrev();
+  if (Math.abs(dx) > 40) dx < 0 ? lbNext() : lbPrev();
   lbTouchX = null;
 });
 
@@ -2100,23 +2129,20 @@ lightbox.addEventListener('touchend', (e) => {
   const cards = Array.from(track.querySelectorAll('.review-card'));
   const total = cards.length;
 
-  // На мобильном карусель работает нативным scroll-snap — JS только синхронизирует точки
   const isMobile = () => window.innerWidth <= 768;
 
-  // Сколько карточек видно одновременно
   function visibleCount() {
     if (window.innerWidth <= 768) return 1;
     if (window.innerWidth <= 1024) return 2;
     return 4;
   }
 
-  let currentStep = 0; // шаг = сдвиг на 1 карточку
+  let currentStep = 0;
 
   function maxStep() {
     return Math.max(0, total - visibleCount());
   }
 
-  // --- Генерация точек ---
   function buildDots() {
     dotsContainer.innerHTML = '';
     const steps = maxStep() + 1;
@@ -2130,8 +2156,8 @@ lightbox.addEventListener('touchend', (e) => {
   }
 
   function updateDots() {
-    const dots = dotsContainer.querySelectorAll('.reviews-dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentStep));
+    dotsContainer.querySelectorAll('.reviews-dot')
+      .forEach((d, i) => d.classList.toggle('active', i === currentStep));
   }
 
   function updateArrows() {
@@ -2143,7 +2169,7 @@ lightbox.addEventListener('touchend', (e) => {
   function goTo(step) {
     if (isMobile()) return;
     currentStep = Math.max(0, Math.min(step, maxStep()));
-    const cardWidth = cards[0].offsetWidth + 20; // 20 = gap
+    const cardWidth = cards[0].offsetWidth + 20;
     track.style.transform = 'translateX(-' + (cardWidth * currentStep) + 'px)';
     updateDots();
     updateArrows();
@@ -2152,21 +2178,17 @@ lightbox.addEventListener('touchend', (e) => {
   btnPrev.addEventListener('click', () => goTo(currentStep - 1));
   btnNext.addEventListener('click', () => goTo(currentStep + 1));
 
-  // Синхронизация точек при нативном скролле на мобильном
-  if (track) {
-    track.addEventListener('scroll', () => {
-      if (!isMobile()) return;
-      const scrollLeft = track.scrollLeft;
-      const cardWidth = cards[0] ? cards[0].offsetWidth + 12 : 1;
-      const idx = Math.round(scrollLeft / cardWidth);
-      if (idx !== currentStep) {
-        currentStep = idx;
-        updateDots();
-      }
-    }, { passive: true });
-  }
+  // Синхронизация точек при нативном скролле (мобильный)
+  track.addEventListener('scroll', () => {
+    if (!isMobile()) return;
+    const cardWidth = cards[0] ? cards[0].offsetWidth + 12 : 1;
+    const idx = Math.round(track.scrollLeft / cardWidth);
+    if (idx !== currentStep) {
+      currentStep = idx;
+      updateDots();
+    }
+  }, { passive: true });
 
-  // Пересчёт при ресайзе
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -2178,86 +2200,8 @@ lightbox.addEventListener('touchend', (e) => {
     }, 150);
   });
 
-  // Инициализация
   buildDots();
   updateArrows();
-
-  // --- Лайтбокс для отзывов ---
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImg');
-  const lbCounter = document.getElementById('lightboxCounter');
-
-  // Переопределяем переменные галереи для мультирежима
-  // Используем уже существующий лайтбокс, но с отдельным массивом
-  let revImages = cards.map(c => ({ src: c.querySelector('img').src, alt: c.querySelector('img').alt }));
-  let revLbIndex = 0;
-  let lbMode = 'gallery'; // 'gallery' | 'reviews'
-
-  // Глобальный массив для лайтбокса
-  window._revImages = revImages;
-
-  function openRevLightbox(idx) {
-    lbMode = 'reviews';
-    revLbIndex = idx;
-    lbImg.src = revImages[idx].src;
-    lbImg.alt = revImages[idx].alt;
-    lbCounter.textContent = (idx + 1) + ' / ' + revImages.length;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function revLbPrev() {
-    revLbIndex = (revLbIndex - 1 + revImages.length) % revImages.length;
-    lbImg.src = revImages[revLbIndex].src;
-    lbImg.alt = revImages[revLbIndex].alt;
-    lbCounter.textContent = (revLbIndex + 1) + ' / ' + revImages.length;
-  }
-
-  function revLbNext() {
-    revLbIndex = (revLbIndex + 1) % revImages.length;
-    lbImg.src = revImages[revLbIndex].src;
-    lbImg.alt = revImages[revLbIndex].alt;
-    lbCounter.textContent = (revLbIndex + 1) + ' / ' + revImages.length;
-  }
-
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => openRevLightbox(i));
-  });
-
-  // Переопределяем обработчики стрелок лайтбокса для поддержки двух режимов
-  const origPrev = document.getElementById('lightboxPrev');
-  const origNext = document.getElementById('lightboxNext');
-
-  // Заменяем listener'ы клонированием (убираем старые)
-  const newPrev = origPrev.cloneNode(true);
-  const newNext = origNext.cloneNode(true);
-  origPrev.parentNode.replaceChild(newPrev, origPrev);
-  origNext.parentNode.replaceChild(newNext, origNext);
-
-  newPrev.addEventListener('click', () => {
-    if (lbMode === 'reviews') revLbPrev();
-    else showPrev();
-  });
-  newNext.addEventListener('click', () => {
-    if (lbMode === 'reviews') revLbNext();
-    else showNext();
-  });
-
-  // Клавиши тоже работают через режим
-  document.addEventListener('keydown', (e) => {
-    if (!lb.classList.contains('open')) return;
-    if (lbMode !== 'reviews') return;
-    if (e.key === 'ArrowLeft') revLbPrev();
-    if (e.key === 'ArrowRight') revLbNext();
-  });
-
-  // Сброс режима при закрытии
-  document.getElementById('lightboxClose').addEventListener('click', () => {
-    lbMode = 'gallery';
-  });
-  lb.addEventListener('click', (e) => {
-    if (e.target === lb) lbMode = 'gallery';
-  });
 })();
 
 // Копирование Telegram на первом экране

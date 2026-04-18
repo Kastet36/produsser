@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://vk.com/js/api/openapi.js?173"></script>
 <style>
 :root {
   --theme-bg: #0D0D0F;
@@ -1570,6 +1571,179 @@ a.btn-primary {
   }
 }
 
+/* ---- PORTFOLIO ---- */
+.portfolio {
+  padding: 120px 32px;
+  position: relative;
+}
+
+.portfolio-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.portfolio-header {
+  margin-bottom: 56px;
+}
+
+.portfolio-header h2 {
+  margin-bottom: 12px;
+}
+
+.portfolio-header p {
+  color: var(--theme-muted-text);
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.portfolio-carousel-wrap {
+  position: relative;
+}
+
+.portfolio-track-outer {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.portfolio-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  align-items: flex-start;
+}
+
+/* Каждая карточка — фиксированная ширина под виджет ВК (450px) */
+.portfolio-card {
+  flex: 0 0 450px;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.portfolio-card:hover {
+  border-color: var(--glass-border);
+}
+
+/* Стрелки */
+.portfolio-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s, transform 0.2s;
+  padding: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.portfolio-arrow:hover {
+  opacity: 1;
+  background: var(--theme-surface);
+}
+
+.portfolio-arrow:active {
+  transform: translateY(-50%) scale(0.93);
+}
+
+.portfolio-arrow:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.portfolio-arrow-prev { left: -24px; }
+.portfolio-arrow-next { right: -24px; }
+
+/* Точки */
+.portfolio-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.portfolio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--theme-border);
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  border: none;
+  padding: 0;
+}
+
+.portfolio-dot.active {
+  background: var(--theme-primary);
+  box-shadow: 0 0 8px var(--glow-primary);
+  transform: scale(1.4);
+}
+
+/* Мобильный: нативный свайп */
+@media (max-width: 768px) {
+  .portfolio {
+    padding: 80px 0;
+  }
+
+  .portfolio-inner {
+    overflow: visible;
+  }
+
+  .portfolio-header {
+    padding: 0 20px;
+    margin-bottom: 32px;
+  }
+
+  .portfolio-arrow {
+    display: none;
+  }
+
+  .portfolio-track-outer {
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .portfolio-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 4px 20px;
+    scrollbar-width: none;
+    transition: none;
+    transform: none !important;
+  }
+
+  .portfolio-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portfolio-card {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+  }
+
+  .portfolio-dots {
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+}
+
 /* Studio LED dots decoration */
 .studio-leds {
   display: flex;
@@ -1611,6 +1785,7 @@ a.btn-primary {
       <li><a href="#process">Процесс</a></li>
       <li><a href="#about">Обо мне</a></li>
       <li><a href="#experience">Опыт</a></li>
+      <li><a href="#portfolio">Портфолио</a></li>
       <li><a href="#reviews">Отзывы</a></li>
       <li><a href="#approach">Подход</a></li>
       <li><a href="#contact">Контакт</a></li>
@@ -1829,6 +2004,48 @@ a.btn-primary {
         <p class="stat-desc">песен, в создании, аранжировке и записи которых я принимал непосредственное участие.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-inner">
+    <div class="portfolio-header fade-in">
+      <div class="studio-leds" aria-hidden="true">
+        <span class="led-dot active"></span>
+        <span class="led-dot active"></span>
+        <span class="led-dot"></span>
+        <span class="led-dot"></span>
+        <span class="led-dot hot"></span>
+      </div>
+      <h2>Послушай, что получается в итоге</h2>
+      <p>Треки, которые мы уже сделали вместе с артистами.</p>
+    </div>
+    <div class="portfolio-carousel-wrap">
+      <button class="portfolio-arrow portfolio-arrow-prev" id="portfolioPrev" aria-label="Предыдущий трек">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="portfolio-track-outer">
+        <div class="portfolio-track" id="portfolioTrack">
+          <div class="portfolio-card">
+            <div id="vk_post_-223090029_141"></div>
+          </div>
+          <div class="portfolio-card">
+            <div id="vk_post_-223090029_138"></div>
+          </div>
+          <div class="portfolio-card">
+            <div id="vk_post_-223090029_134"></div>
+          </div>
+          <div class="portfolio-card">
+            <div id="vk_post_-223090029_117"></div>
+          </div>
+        </div>
+      </div>
+      <button class="portfolio-arrow portfolio-arrow-next" id="portfolioNext" aria-label="Следующий трек">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="portfolio-dots" id="portfolioDots"></div>
   </div>
 </section>
 
@@ -2246,6 +2463,111 @@ lightbox.addEventListener('touchend', (e) => {
 
   buildDots();
   updateArrows();
+})();
+
+// ---- PORTFOLIO CAROUSEL + VK WIDGETS ----
+(function () {
+  const track = document.getElementById('portfolioTrack');
+  const dotsContainer = document.getElementById('portfolioDots');
+  const btnPrev = document.getElementById('portfolioPrev');
+  const btnNext = document.getElementById('portfolioNext');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.portfolio-card'));
+  const total = cards.length;
+
+  const isMobile = () => window.innerWidth <= 768;
+
+  // На десктопе показываем 3 карточки, листаем по 1
+  function visibleCount() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  let currentStep = 0;
+
+  function maxStep() {
+    return Math.max(0, total - visibleCount());
+  }
+
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    const steps = maxStep() + 1;
+    for (let i = 0; i < steps; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'portfolio-dot' + (i === 0 ? ' active' : '');
+      btn.setAttribute('aria-label', 'Трек ' + (i + 1));
+      btn.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(btn);
+    }
+  }
+
+  function updateDots() {
+    dotsContainer.querySelectorAll('.portfolio-dot')
+      .forEach((d, i) => d.classList.toggle('active', i === currentStep));
+  }
+
+  function updateArrows() {
+    if (isMobile()) return;
+    btnPrev.disabled = currentStep === 0;
+    btnNext.disabled = currentStep >= maxStep();
+  }
+
+  function goTo(step) {
+    if (isMobile()) return;
+    currentStep = Math.max(0, Math.min(step, maxStep()));
+    const cardWidth = cards[0].offsetWidth + 20;
+    track.style.transform = 'translateX(-' + (cardWidth * currentStep) + 'px)';
+    updateDots();
+    updateArrows();
+  }
+
+  btnPrev.addEventListener('click', () => goTo(currentStep - 1));
+  btnNext.addEventListener('click', () => goTo(currentStep + 1));
+
+  // Синхронизация точек при нативном скролле (мобильный)
+  track.addEventListener('scroll', () => {
+    if (!isMobile()) return;
+    const cardWidth = cards[0] ? cards[0].offsetWidth + 12 : 1;
+    const idx = Math.round(track.scrollLeft / cardWidth);
+    if (idx !== currentStep) {
+      currentStep = idx;
+      updateDots();
+    }
+  }, { passive: true });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      currentStep = 0;
+      if (!isMobile()) track.style.transform = 'translateX(0)';
+      buildDots();
+      updateArrows();
+    }, 150);
+  });
+
+  buildDots();
+  updateArrows();
+
+  // Инициализация виджетов ВК после загрузки страницы
+  function initVKWidgets() {
+    if (typeof VK === 'undefined' || typeof VK.Widgets === 'undefined') {
+      setTimeout(initVKWidgets, 200);
+      return;
+    }
+    VK.Widgets.Post("vk_post_-223090029_141", -223090029, 141, '7I_vFS3597DW5UpTkl3geR4fJReC');
+    VK.Widgets.Post("vk_post_-223090029_138", -223090029, 138, 'XYmG4iGjG96xTkInAez60AcHuSlG');
+    VK.Widgets.Post("vk_post_-223090029_134", -223090029, 134, '4Bi543slb0wrrLFm8XLOdL0oOY69');
+    VK.Widgets.Post("vk_post_-223090029_117", -223090029, 117, 'oxPSu7Z3G4cWPN0YxkntwW5aLfv8');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVKWidgets);
+  } else {
+    initVKWidgets();
+  }
 })();
 
 // Копирование Telegram на первом экране
